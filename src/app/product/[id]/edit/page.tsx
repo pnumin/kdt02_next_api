@@ -1,11 +1,6 @@
 import type { Product } from "@/types/product";
 import Link from "next/link";
 import ProductForm from "../../ProductForm";
-interface EditProductProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
 
 async function getProduct(id: string): Promise<Product> {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -18,8 +13,12 @@ async function getProduct(id: string): Promise<Product> {
   return resp.json();
 }
 
-export default async function EditProduct(props : EditProductProps) { 
-  const { id } = await props.params;
+export default async function EditProduct({
+  params
+}: {
+  params : Promise <{id : string}>
+}) { 
+  const { id } = await params;
   const product = await getProduct(id);
   return (
     <div className="container mx-auto min-h-screen p-5 bg-gray-50"> 

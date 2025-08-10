@@ -14,8 +14,7 @@ async function getProducts() : Promise<Product[]> {
 }
 
 export default async function Product() {
-  const products =  getProducts() ;
-  // console.log(products)
+  const products =  await getProducts() ; 
   return (
     <div className="container mx-auto min-h-screen p-5 bg-gray-50">
       <div className="flex justify-between items-center mb-8">
@@ -33,7 +32,7 @@ export default async function Product() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {
-          (await products).map(item => <ProductCard key={item.id} 
+          products.map(item => <ProductCard key={item.id} 
                                                     product={item} />
           )
         }
@@ -41,3 +40,5 @@ export default async function Product() {
     </div>
   );
 }
+
+
