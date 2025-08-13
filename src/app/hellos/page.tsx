@@ -1,25 +1,20 @@
-'use client'
-import { useState, useEffect } from "react";
+
 type helloT = {
   msg : string
 }
 
-export default function HelloPage() {
-  const [tdata, setTdata] = useState<helloT[] | null >(null);
-  const getFetchData = async () => {
+async function getFetchData() : Promise<helloT[]> {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-    const resp = await fetch(`${baseUrl}/api/hello`) ;
+    const resp = await fetch(`${baseUrl}/api/hello`,{
+      cache : 'no-store'
+    }) ;
     const data = await resp.json();
-    setTdata(data);
+    return data ;
   }
 
-  useEffect(() =>{
-    getFetchData()
-  }, []);
+export default async function HellosPage() {
+  const tdata = await getFetchData()
 
-  useEffect(() => {
-    console.log(tdata);
-  }, [tdata]);
   return (
     <div className="w-full h-screen
                     flex flex-col justify-center items-center">
