@@ -1,33 +1,26 @@
-'use client'
-import { useState, useEffect } from "react";
-type helloT = {
-  msg : string
-}
+import { supabase } from "@/lib/supabase/client";
+import type { Product } from "@/types/product";
+import Link from "next/link";
+export default async function HelloPage() {
+  const {data , error} = await supabase
+  .from('products')
+  .select('*');
 
-export default function HelloPage() {
-  const [tdata, setTdata] = useState<helloT[] | null >(null);
-  const getFetchData = async () => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-    const resp = await fetch(`${baseUrl}/api/hello`) ;
-    const data = await resp.json();
-    setTdata(data);
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
-  useEffect(() =>{
-    getFetchData()
-  }, []);
-
-  useEffect(() => {
-    console.log(tdata);
-  }, [tdata]);
+  console.log(data)
   return (
     <div className="w-full h-screen
                     flex flex-col justify-center items-center">
       <h1 className="text-2xl font-bold">
-        {
-         tdata && tdata.map((item:helloT) => 
-                              <div key={item.msg}>{item.msg}</div>)
-        }
+        Supbase Test
+        {data && data.map((item:Product) => 
+          <Link href={`/hello/${item.id}`}  key={item.id}>
+          <div>{item.name}</div>
+          </Link>
+          )}
       </h1>
     </div>
   );

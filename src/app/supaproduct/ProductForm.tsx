@@ -1,9 +1,7 @@
 'use client'
 import type { Product } from "@/types/product";
-import { useActionState } from "react";
-import type { FormStatus } from "@/actions";
-import { createProductAction, updateProductAction } from "@/actions";
-import SubmitButton from "@/app/product/SubmitButton";
+import { addProduct, updateProduct } from "@/app/supaproduct/actions";
+import SubmitButton from "@/app/supaproduct/SubmitButton";
 
 interface ProductFormProps {
   //product가 있으면 수정모드 없으면 입력모드
@@ -11,21 +9,14 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ product }: ProductFormProps) {
-  //수정인지 입력인지 구분 
   const isEditMode = product != null;
 
   //useActionstate 설정
-  // React의 새로운 훅(Hook)
-  // 서버 액션(Server Action)의 결과와 대기 상태(pending state)를 손쉽게 관리하기 위해 사용
-  // 폼의 제출 상태(pending)와 함께 서버 액션이 반환하는 결과(state)까지 처리해야 할 때 사용
-  // <form> 태그를 감싸는 상위 컴포넌트에서 사용하여 액션 함수와 상태를 직접 관리
-  const actionUse = isEditMode ? updateProductAction : createProductAction ;
-  const initState : FormStatus = { message : ''} ;
-  const [status, formAction] = useActionState( actionUse, initState) ;
+  const actionUse = isEditMode ? updateProduct : addProduct ;
 
   return (
     <div className="w-full bg-white p-8 rounded-lg shadow-md">
-      <form action={formAction} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+      <form action={actionUse} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
         {isEditMode && <input type="hidden" name="id" value={product.id} />}
         <div className="p-4">
           <label htmlFor="name"

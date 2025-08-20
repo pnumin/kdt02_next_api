@@ -2,7 +2,7 @@
   {
     "id": "123",
     "name": "에어맥스 270",
-    "category": "shoes",
+    "category": "신발",
     "price": 129000,
     "description": "편안한 착화감과 스타일을 동시에 갖춘 인기 러닝화"
   },
@@ -19,12 +19,5 @@
     "category": "clothes",
     "price": 59000,
     "description": "트렌디한 핏의 데일리 데님 팬츠"
-  },
-  {
-    "id": "1754822315561",
-    "name": "유아3",
-    "category": "상의",
-    "price": 9000,
-    "description": "유아상의3"
   }
 ]
